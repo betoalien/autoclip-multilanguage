@@ -22,38 +22,36 @@ Esta guía detalla los pasos para instalar y ejecutar **AutoClip Multi-Language*
 
 ---
 
-## ⚡ Inicio en Un Clic (Recomendado)
+## ⚡ Inicio Rápido (Scripts por Idioma)
 
-En macOS o Linux, utiliza el script automatizado:
+En macOS o Linux, utiliza los scripts adaptados a tu idioma preferido:
 
 ```bash
 # 1. Clonar el repositorio
-git clone <tu-url-del-repo>
-cd autoclip_multi
+git clone https://github.com/betoalien/autoclip-multilanguage.git
+cd autoclip-multilanguage
 
-# 2. Crear archivo de variables de entorno
-cp .env.example .env
+# 2. Instalación inicial (venv, dependencias, base de datos y frontend)
+./setup_es.sh   # O ./setup.sh para autodetección según tu sistema
 
 # 3. Iniciar todos los servicios
-./start_autoclip.sh
+./start_autoclip_es.sh   # O ./start_autoclip.sh
 ```
 
-El script se encargará automáticamente de:
-- Comprobar las herramientas requeridas (Python, Node, Redis, FFmpeg).
-- Crear el entorno virtual e instalar las dependencias de Python.
-- Instalar dependencias del frontend (`npm install`).
-- Inicializar la base de datos SQLite local.
-- Levantar Redis, el Worker de Celery, el backend FastAPI y el servidor frontend Vite.
+### Tabla de Scripts Disponibles
+
+| Operación | Español | English | 中文 | Universal |
+| :--- | :--- | :--- | :--- | :--- |
+| **Instalación Inicial** | `./setup_es.sh` | `./setup_en.sh` | `./setup_zh.sh` | `./setup.sh` |
+| **Iniciar Servicios** | `./start_autoclip_es.sh` | `./start_autoclip_en.sh` | `./start_autoclip_zh.sh` | `./start_autoclip.sh` |
+| **Ver Estado** | `./status_autoclip_es.sh` | `./status_autoclip_en.sh` | `./status_autoclip_zh.sh` | `./status_autoclip.sh` |
+| **Detener Servicios** | `./stop_autoclip_es.sh` | `./stop_autoclip_en.sh` | `./stop_autoclip_zh.sh` | `./stop_autoclip.sh` |
+| **Inicio Rápido** | `./quick_start_es.sh` | `./quick_start_en.sh` | `./quick_start_zh.sh` | `./quick_start.sh` |
 
 Una vez iniciado:
 - **Panel Web**: [http://localhost:3001](http://localhost:3001)
 - **Documentación API (Swagger)**: [http://localhost:8001/docs](http://localhost:8001/docs)
 - **Estado de Salud**: [http://localhost:8001/api/v1/health/](http://localhost:8001/api/v1/health/)
-
-Para detener los servicios limpiamente:
-```bash
-./stop_autoclip.sh
-```
 
 ---
 

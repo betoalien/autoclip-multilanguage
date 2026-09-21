@@ -85,17 +85,30 @@ git clone https://github.com/betoalien/autoclip-multilanguage.git
 cd autoclip-multilanguage
 ```
 
-### 2. Configure Environment
-```bash
-# Copy the clean environment template
-cp .env.example .env
-```
+### 2. Initial Setup (Dependencies & Database)
+Choose your preferred language or run the auto-detecting script:
 
-Edit `.env` to select your preferred AI provider. For **100% free local AI**, install [Ollama](https://ollama.ai) and run:
+| Language | Setup Command | Description |
+| :--- | :--- | :--- |
+| 🌐 **Auto-Detect** | `./setup.sh` | Automatically detects system language and runs the proper script |
+| 🇬🇧 **English** | `./setup_en.sh` | Sets up venv, installs requirements, builds frontend in English |
+| 🇪🇸 **Español** | `./setup_es.sh` | Configura el entorno virtual, instala dependencias y compila en Español |
+| 🇨🇳 **中文** | `./setup_zh.sh` | 配置 Python 虚拟环境、安装前后端依赖并初始化数据库 |
+
+The setup script automatically:
+1. Creates the Python virtual environment (`venv`).
+2. Installs Python dependencies (`requirements.txt`).
+3. Generates `.env` from `.env.example` with local Ollama defaults.
+4. Initializes the SQLite database schema (`data/autoclip.db`).
+5. Installs frontend npm dependencies.
+
+### 3. Configure AI Provider (.env)
+Edit `.env` to select your preferred AI provider. For **100% free offline local AI**, install [Ollama](https://ollama.ai) and run:
 ```bash
-ollama pull gemma4:latest
+ollama run gemma4:latest
+# or: ollama run qwen2.5:latest
 ```
-And set in `.env`:
+Your `.env` is already pre-configured for Ollama by default:
 ```bash
 LLM_PROVIDER=openai
 OPENAI_BASE_URL=http://localhost:11434/v1
@@ -103,20 +116,35 @@ API_OPENAI_API_KEY=ollama
 API_MODEL_NAME=gemma4:latest
 ```
 
-### 3. Launch Services
-On macOS / Linux:
+### 4. Launch Services
+Start all services (Redis, Celery Worker, FastAPI Backend, Frontend Dashboard):
+
 ```bash
+# English
+./start_autoclip_en.sh
+
+# Español
+./start_autoclip_es.sh
+
+# 中文
+./start_autoclip_zh.sh
+
+# Universal Auto-Detect
 ./start_autoclip.sh
 ```
 
-The script automatically prepares the virtual environment, installs dependencies, initializes the database, and launches:
+Once started:
 - **Web Dashboard**: [http://localhost:3001](http://localhost:3001)
 - **FastAPI Documentation**: [http://localhost:8001/docs](http://localhost:8001/docs)
+- **Health Check**: [http://localhost:8001/api/v1/health/](http://localhost:8001/api/v1/health/)
 
-To stop all services:
-```bash
-./stop_autoclip.sh
-```
+### 5. Service Management
+
+| Action | English | Español | 中文 | Universal |
+| :--- | :--- | :--- | :--- | :--- |
+| **Check Status** | `./status_autoclip_en.sh` | `./status_autoclip_es.sh` | `./status_autoclip_zh.sh` | `./status_autoclip.sh` |
+| **Stop Services** | `./stop_autoclip_en.sh` | `./stop_autoclip_es.sh` | `./stop_autoclip_zh.sh` | `./stop_autoclip.sh` |
+| **Quick Start** | `./quick_start_en.sh` | `./quick_start_es.sh` | `./quick_start_zh.sh` | `./quick_start.sh` |
 
 ---
 

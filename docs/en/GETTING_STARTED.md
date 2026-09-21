@@ -23,38 +23,36 @@ Before starting, ensure you have the following installed:
 
 ---
 
-## ⚡ Quick Start (One-Click Script)
+## ⚡ Quick Start (Language-Specific Scripts)
 
-The easiest way to start on macOS or Linux is using the included launcher:
+The easiest way to start on macOS or Linux is using the setup and startup scripts tailored for your language:
 
 ```bash
 # 1. Clone your repository
-git clone <your-repo-url>
-cd autoclip_multi
+git clone https://github.com/betoalien/autoclip-multilanguage.git
+cd autoclip-multilanguage
 
-# 2. Copy the environment configuration template
-cp .env.example .env
+# 2. Initial Setup (venv, dependencies, .env, database, frontend)
+./setup_en.sh   # Or ./setup.sh for automatic language detection
 
-# 3. Launch everything with one command
-./start_autoclip.sh
+# 3. Launch everything
+./start_autoclip_en.sh   # Or ./start_autoclip.sh
 ```
 
-The startup script will automatically:
-- Verify Python, Node, Redis, and FFmpeg installations.
-- Create a Python virtual environment and install backend dependencies.
-- Install frontend dependencies (`npm install`).
-- Initialize the local SQLite database.
-- Start Redis, Celery Worker, FastAPI backend, and Vite dev server.
+### Script Reference by Language
+
+| Action | English | Español | 中文 | Universal |
+| :--- | :--- | :--- | :--- | :--- |
+| **Initial Setup** | `./setup_en.sh` | `./setup_es.sh` | `./setup_zh.sh` | `./setup.sh` |
+| **Start Services** | `./start_autoclip_en.sh` | `./start_autoclip_es.sh` | `./start_autoclip_zh.sh` | `./start_autoclip.sh` |
+| **Check Status** | `./status_autoclip_en.sh` | `./status_autoclip_es.sh` | `./status_autoclip_zh.sh` | `./status_autoclip.sh` |
+| **Stop Services** | `./stop_autoclip_en.sh` | `./stop_autoclip_es.sh` | `./stop_autoclip_zh.sh` | `./stop_autoclip.sh` |
+| **Quick Start** | `./quick_start_en.sh` | `./quick_start_es.sh` | `./quick_start_zh.sh` | `./quick_start.sh` |
 
 Once running:
 - **Frontend Dashboard**: [http://localhost:3001](http://localhost:3001)
 - **Backend API & Swagger Docs**: [http://localhost:8001/docs](http://localhost:8001/docs)
 - **System Health Check**: [http://localhost:8001/api/v1/health/](http://localhost:8001/api/v1/health/)
-
-To stop all services cleanly:
-```bash
-./stop_autoclip.sh
-```
 
 ---
 

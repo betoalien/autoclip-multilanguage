@@ -81,21 +81,34 @@ flowchart LR
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/autoclip-multilanguage.git
+git clone https://github.com/betoalien/autoclip-multilanguage.git
 cd autoclip-multilanguage
 ```
 
-### 2. Configurar Variables de Entorno
-```bash
-# Copiar plantilla limpia
-cp .env.example .env
-```
+### 2. Instalación y Configuración Inicial
+Ejecuta el script en tu idioma preferido o usa el detector automático:
 
-Para usar **IA 100% local y gratuita**, instala [Ollama](https://ollama.ai) y ejecuta:
+| Idioma | Comando de Instalación | Descripción |
+| :--- | :--- | :--- |
+| 🌐 **Autodetectar** | `./setup.sh` | Detecta el idioma de tu sistema y ejecuta el instalador correspondiente |
+| 🇪🇸 **Español** | `./setup_es.sh` | Prepara venv, instala dependencias Python y paquetes npm en español |
+| 🇬🇧 **English** | `./setup_en.sh` | Sets up venv, installs requirements, builds frontend in English |
+| 🇨🇳 **中文** | `./setup_zh.sh` | 配置 Python 虚拟环境、安装前后端依赖并初始化数据库 |
+
+El instalador realiza todo de forma desatendida:
+1. Crea el entorno virtual Python (`venv`).
+2. Instala las dependencias de Python (`requirements.txt`).
+3. Genera el `.env` a partir de `.env.example` con configuración local de Ollama.
+4. Inicializa las tablas SQLite (`data/autoclip.db`).
+5. Instala las librerías npm del frontend.
+
+### 3. Configurar Proveedor de IA (.env)
+Para usar **IA 100% local, gratuita y privada**, instala [Ollama](https://ollama.ai) y ejecuta:
 ```bash
-ollama pull gemma4:latest
+ollama run gemma4:latest
+# o también: ollama run qwen2.5:latest
 ```
-Y configura en `.env`:
+Tu archivo `.env` ya viene preconfigurado por defecto para Ollama:
 ```bash
 LLM_PROVIDER=openai
 OPENAI_BASE_URL=http://localhost:11434/v1
@@ -103,20 +116,35 @@ API_OPENAI_API_KEY=ollama
 API_MODEL_NAME=gemma4:latest
 ```
 
-### 3. Iniciar Servicios
-En macOS / Linux:
+### 4. Iniciar Servicios
+Inicia todos los servicios (Redis, Worker Celery, Backend FastAPI, Panel Web):
+
 ```bash
+# Español
+./start_autoclip_es.sh
+
+# English
+./start_autoclip_en.sh
+
+# 中文
+./start_autoclip_zh.sh
+
+# Selector Automático Universal
 ./start_autoclip.sh
 ```
 
-El script preparará el entorno virtual, instalará dependencias, creará la base de datos y levantará:
-- **Panel Web**: [http://localhost:3001](http://localhost:3001)
-- **Documentación API**: [http://localhost:8001/docs](http://localhost:8001/docs)
+Una vez iniciados:
+- **Panel Web Frontend**: [http://localhost:3001](http://localhost:3001)
+- **Documentación API Swagger**: [http://localhost:8001/docs](http://localhost:8001/docs)
+- **Monitoreo de Salud**: [http://localhost:8001/api/v1/health/](http://localhost:8001/api/v1/health/)
 
-Para detener los servicios:
-```bash
-./stop_autoclip.sh
-```
+### 5. Gestión de Servicios
+
+| Acción | Español | English | 中文 | Universal |
+| :--- | :--- | :--- | :--- | :--- |
+| **Ver Estado** | `./status_autoclip_es.sh` | `./status_autoclip_en.sh` | `./status_autoclip_zh.sh` | `./status_autoclip.sh` |
+| **Detener Servicios** | `./stop_autoclip_es.sh` | `./stop_autoclip_en.sh` | `./stop_autoclip_zh.sh` | `./stop_autoclip.sh` |
+| **Inicio Rápido** | `./quick_start_es.sh` | `./quick_start_en.sh` | `./quick_start_zh.sh` | `./quick_start.sh` |
 
 ---
 

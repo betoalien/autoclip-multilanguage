@@ -45,16 +45,36 @@
 - **FFmpeg** (`brew install ffmpeg` / `sudo apt install ffmpeg`)
 - **Redis** (`brew services start redis` / `sudo systemctl start redis`)
 
-### 1. 复制环境配置
+### 1. 克隆代码仓库
 ```bash
-cp .env.example .env
+git clone https://github.com/betoalien/autoclip-multilanguage.git
+cd autoclip-multilanguage
 ```
 
-如需使用免费的本地 Ollama 模型，安装 [Ollama](https://ollama.ai) 并拉取模型：
+### 2. 初始化环境与依赖 (Setup)
+支持针对特定语言的安装脚本或自适应环境检测：
+
+| 语言 | 安装命令 | 说明 |
+| :--- | :--- | :--- |
+| 🌐 **自动识别** | `./setup.sh` | 根据操作系统语言环境自动调用对应的初始化配置脚本 |
+| 🇨🇳 **中文** | `./setup_zh.sh` | 自动创建 Python 虚拟环境、安装依赖、初始化数据库与前端 |
+| 🇬🇧 **English** | `./setup_en.sh` | Sets up venv, installs requirements, builds frontend in English |
+| 🇪🇸 **Español** | `./setup_es.sh` | Prepara venv, instala dependencias Python y paquetes npm en español |
+
+初始化脚本将全自动完成：
+1. 创建 Python 虚拟环境 (`venv`)。
+2. 安装后端 Python 依赖 (`requirements.txt`)。
+3. 从 `.env.example` 生成默认 `.env` 配置文件（预设 Ollama 本地模型）。
+4. 初始化本地 SQLite 数据库 (`data/autoclip.db`)。
+5. 安装前端 npm 依赖包。
+
+### 3. 配置大语言模型提供商 (.env)
+如需使用完全免费、隐私安全的本地大模型，请安装 [Ollama](https://ollama.ai) 并运行：
 ```bash
-ollama pull gemma4:latest
+ollama run gemma4:latest
+# 或: ollama run qwen2.5:latest
 ```
-在 `.env` 中配置：
+默认 `.env` 已经预设为本地 Ollama，开箱即用：
 ```bash
 LLM_PROVIDER=openai
 OPENAI_BASE_URL=http://localhost:11434/v1
@@ -62,15 +82,35 @@ API_OPENAI_API_KEY=ollama
 API_MODEL_NAME=gemma4:latest
 ```
 
-### 2. 一键启动
-在 macOS 或 Linux 上直接运行：
+### 4. 启动系统服务
+启动全部核心服务（Redis、Celery Worker、FastAPI 后端、前端界面）：
+
 ```bash
+# 中文输出
+./start_autoclip_zh.sh
+
+# 英文输出 (English)
+./start_autoclip_en.sh
+
+# 西班牙语输出 (Español)
+./start_autoclip_es.sh
+
+# 通用自适应启动
 ./start_autoclip.sh
 ```
 
-服务运行后访问：
+服务就绪后访问：
 - **Web 控制台**: [http://localhost:3001](http://localhost:3001)
-- **API 文档**: [http://localhost:8001/docs](http://localhost:8001/docs)
+- **FastAPI 接口文档**: [http://localhost:8001/docs](http://localhost:8001/docs)
+- **系统健康检查**: [http://localhost:8001/api/v1/health/](http://localhost:8001/api/v1/health/)
+
+### 5. 系统管理脚本
+
+| 功能 | 中文 | English | Español | 通用自适应 |
+| :--- | :--- | :--- | :--- | :--- |
+| **检查运行状态** | `./status_autoclip_zh.sh` | `./status_autoclip_en.sh` | `./status_autoclip_es.sh` | `./status_autoclip.sh` |
+| **停止系统服务** | `./stop_autoclip_zh.sh` | `./stop_autoclip_en.sh` | `./stop_autoclip_es.sh` | `./stop_autoclip.sh` |
+| **快速后台启动** | `./quick_start_zh.sh` | `./quick_start_en.sh` | `./quick_start_es.sh` | `./quick_start.sh` |
 
 ---
 
